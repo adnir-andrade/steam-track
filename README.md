@@ -45,7 +45,7 @@ _To be added_
 
 ## Diagrama de Entidade-Relacionamento (ERD):
 
-_To be added_
+![dbDiagram.png](./docs/assets/dbDiagram.png)
 
 ---
 
