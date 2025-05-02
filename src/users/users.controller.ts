@@ -7,15 +7,17 @@ import {
     Patch,
     Delete,
     Query,
-    ParseIntPipe,
+    ParseIntPipe, UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { QueryUserFilterDto } from './dto/query-user-filter.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {User} from "./user.interface";
+import {ResponseInterceptor} from "../response/response.interceptor";
 
 @Controller('users')
+@UseInterceptors(ResponseInterceptor)
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
