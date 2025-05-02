@@ -7,7 +7,7 @@ import {
     Patch,
     Delete,
     Query,
-    ParseIntPipe, UseInterceptors,
+    ParseIntPipe, UseInterceptors, UseFilters, HttpException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,9 +15,11 @@ import { QueryUserFilterDto } from './dto/query-user-filter.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {User} from "./user.interface";
 import {ResponseInterceptor} from "../response/response.interceptor";
+import {CustomExceptionFilter} from "../custom-exception/custom-exception.filter";
 
-@Controller('users')
+@UseFilters(CustomExceptionFilter)
 @UseInterceptors(ResponseInterceptor)
+@Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
@@ -33,6 +35,7 @@ export class UsersController {
 
     @Get(':id')
     findOneUser(@Param('id', ParseIntPipe) id: number): User {
+        if (id !== 1) throw new HttpException('Usuário não encontrado', 404);
         return this.usersService.findOne(id);
     }
 
