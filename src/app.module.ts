@@ -7,9 +7,10 @@ import { GamesModule } from './games/games.module';
 import { UsersModule } from './users/users.module';
 import {AuthMiddleware} from "./auth/auth.middleware";
 import { ErrorsModule } from './errors/errors.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [SharedModule, CoreModule, GamesModule, UsersModule, ErrorsModule],
+  imports: [SharedModule, CoreModule, GamesModule, UsersModule, ErrorsModule, PrismaModule],
   controllers: [AppController],
   providers: [AppService],
 })
