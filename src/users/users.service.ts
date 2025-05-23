@@ -2,63 +2,64 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { QueryUserFilterDto } from './dto/query-user-filter.dto';
-import {User} from "./user.interface";
+import {PrismaService} from "../prisma/prisma.service";
+import { Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
-    private users: User[] = [];
+    constructor(private prisma: PrismaService) {}
 
-    create(createUserDto: CreateUserDto): User {
-        const newUser: User = {
-            ...createUserDto,
-            id: this.users.length + 1,
+    async create(createUserDto: CreateUserDto) {
+        return this.prisma.user.create({
+            data: createUserDto as Prisma.UserCreateInput,
+        });
+    }
+
+    async findAll(query: QueryUserFilterDto) {
+        const { username, steam_username, page = 1 } = query;
+
+        const filters: Prisma.UserWhereInput = {
+            ...(username && {
+                name: {
+                    contains: username,
+                    mode: 'insensitive',
+                } as Prisma.StringFilter,
+            }),
+            ...(steam_username && {
+                steam_username: {
+                    contains: steam_username,
+                    mode: 'insensitive',
+                } as Prisma.StringFilter,
+            }),
         };
-        this.users.push(newUser);
-        return newUser;
+
+        return this.prisma.user.findMany({
+            where: filters,
+            skip: (page - 1) * 5,
+            take: 5,
+        });
     }
 
-    findAll(query: QueryUserFilterDto): User[] {
-        const { username, steam_username, page } = query;
-        let results = this.users;
-
-        if (username) {
-            results = results.filter((user) =>
-                user.username.toLowerCase().includes(username.toLowerCase()),
-            );
-        }
-
-        if (steam_username) {
-            results = results.filter((user) =>
-                user.steam_username
-                    .toLowerCase()
-                    .includes(steam_username.toLowerCase()),
-            );
-        }
-
-        const pageSize = 5;
-        const start = ((page || 1) - 1) * pageSize;
-
-        return results.slice(start, start + pageSize);
-    }
-
-    findOne(id: number): User {
-        const user = this.users.find((u) => u.id === id);
+    async findOne(id: number) {
+        const user = await this.prisma.user.findUnique({ where: { id } });
         if (!user) throw new NotFoundException('User not found');
         return user;
     }
 
-    update(id: number, updateUserDto: UpdateUserDto): User {
-        const index = this.users.findIndex((u) => u.id === id);
-        if (index === -1) throw new NotFoundException('User not found');
+    async update(id: number, updateUserDto: UpdateUserDto) {
+        await this.findOne(id);
 
-        this.users[index] = { ...this.users[index], ...updateUserDto };
-        return this.users[index];
+        return this.prisma.user.update({
+            where: { id },
+            data: updateUserDto,
+        });
     }
 
-    remove(id: number): void {
-        const index = this.users.findIndex((u) => u.id === id);
-        if (index === -1) throw new NotFoundException('User not found');
+    async remove(id: number) {
+        await this.findOne(id);
 
-        this.users.splice(index, 1);
+        await this.prisma.user.delete({
+            where: { id },
+        });
     }
 }
