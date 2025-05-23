@@ -63,6 +63,20 @@ yarn start:dev
 
 ___
 
+### Prisma Studio
+
+O **Prisma Studio** é uma interface gráfica intuitiva para visualizar e gerenciar os dados do banco de dados utilizado no projeto.
+
+#### Acessar com Yarn
+
+```bash
+yarn studio
+# Ou
+npx prisma studio
+```
+
+Após rodar o comando, acesse http://localhost:5555 no navegador para abrir o Studio.
+___
 
 **Variáveis de Ambiente:**
 _To be added_
