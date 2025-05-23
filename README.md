@@ -18,25 +18,51 @@ _To be added_
 
 ---
 
-## Instruções de Execução
-
-_To be added_
-
-### Instalação
-
-_To be added_
-
 ### Pré-requisitos:
 
-_To be added_
+	•	Docker
+	•	Docker Compose
+	•	Node.js (LTS)
+	•	yarn
+___
 
-### Execução:
+### Instalação (Getting Started)
 
-_To be added_
+#### 1. Clone o repositório
+```bash
+git@github.com:adnir-andrade/steam-track.git
+```
 
-### Configuração do Banco de Dados:
+#### 2. Suba o banco de dados com Docker Compose
+```bash
+docker-compose up -d
+```
 
-_To be added_
+#### 3. Instale as dependências
+```bash
+yarn install
+```
+
+#### 4.	Configure o ambiente
+Crie um arquivo .env na raiz e adicione:
+```
+DATABASE_URL="mysql://root:root@localhost:3306/steam-backlog-db"
+```
+
+#### 5.	Execute a migration do Prisma
+```
+npx prisma migrate dev --name init
+```
+
+#### 6. Inicie servidor NestJS
+```
+yarn start
+# ou, para ambiente de desenvolvimento:
+yarn start:dev
+```
+
+___
+
 
 **Variáveis de Ambiente:**
 _To be added_
