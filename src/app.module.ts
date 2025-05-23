@@ -6,9 +6,10 @@ import { CoreModule } from './core/core.module';
 import { GamesModule } from './games/games.module';
 import { UsersModule } from './users/users.module';
 import {AuthMiddleware} from "./auth/auth.middleware";
+import { ErrorsModule } from './errors/errors.module';
 
 @Module({
-  imports: [SharedModule, CoreModule, GamesModule, UsersModule],
+  imports: [SharedModule, CoreModule, GamesModule, UsersModule, ErrorsModule],
   controllers: [AppController],
   providers: [AppService],
 })
