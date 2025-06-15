@@ -10,7 +10,7 @@ import {
     ParseIntPipe,
     UseInterceptors,
     UseFilters,
-    NotFoundException,
+    NotFoundException, UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,6 +19,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ResponseInterceptor } from '../response/response.interceptor';
 import { CustomExceptionFilter } from '../custom-exception/custom-exception.filter';
 import { User } from '@prisma/client';
+import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import {RolesGuard} from "../auth/roles.guard";
+import {Roles} from "../auth/roles.decorator";
 
 @UseFilters(CustomExceptionFilter)
 @UseInterceptors(ResponseInterceptor)
@@ -31,11 +34,15 @@ export class UsersController {
         return this.usersService.create(createUserDto);
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('ADMIN')
     @Get()
     findAllUsers(@Query() queryFilter: QueryUserFilterDto): Promise<User[]> {
         return this.usersService.findAll(queryFilter);
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('ADMIN')
     @Get(':id')
     async findOneUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
         const user = await this.usersService.findOne(id);
