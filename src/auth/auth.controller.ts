@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody} from '@nestjs/swagger';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -31,6 +31,7 @@ export class AuthController {
     @Post('login')
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'Logs in a user with email and password' })
+    @ApiBody({ type: LoginDto })
     @ApiResponse({ status: 200, description: 'Login successful, returns JWT token' })
     @ApiResponse({ status: 401, description: 'Invalid credentials' })
     async login(@Body() loginDto: LoginDto) {
