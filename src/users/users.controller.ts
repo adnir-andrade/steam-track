@@ -64,7 +64,9 @@ export class UsersController {
         return user;
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch(':id')
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Updates a user by ID' })
     @ApiResponse({ status: 200, description: 'User successfully updated' })
     @ApiResponse({ status: 404, description: 'User not found' })
@@ -75,7 +77,9 @@ export class UsersController {
         return this.usersService.update(id, updateUserDto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Deletes a user by ID' })
     @ApiResponse({ status: 200, description: 'User successfully deleted' })
     @ApiResponse({ status: 404, description: 'User not found' })
