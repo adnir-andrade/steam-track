@@ -28,7 +28,10 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 @UseFilters(CustomExceptionFilter)
 @UseInterceptors(ResponseInterceptor)
 @ApiTags('users')
-@Controller('users')
+@Controller({
+    path: 'users',
+    version: '1',
+})
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 

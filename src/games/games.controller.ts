@@ -15,7 +15,10 @@ import { Game } from './game.interface';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @ApiTags('games')
-@Controller('games')
+@Controller({
+    path: 'games',
+    version: '1',
+})
 export class GamesController {
     constructor(private readonly gamesService: GamesService) {}
 
