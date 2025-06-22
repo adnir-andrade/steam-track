@@ -1,36 +1,39 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {Game} from "./game.interface";
+import { PrismaService } from '../prisma/prisma.service';
+import { Prisma, Game } from '@prisma/client';
 
 @Injectable()
 export class GamesService {
-    private games: Game[] = [];
-    private nextId = 1;
+    constructor(private prisma: PrismaService) {}
 
-    create(gameData: Omit<Game, 'id'>): Game {
-        const newGame: Game = { id: this.nextId++, ...gameData };
-        this.games.push(newGame);
-        return newGame;
+    async create(gameData: Prisma.GameCreateInput): Promise<Game> {
+        return this.prisma.game.create({
+            data: gameData,
+        });
     }
 
-    findAll(): Game[] {
-        return this.games;
+    async findAll(): Promise<Game[]> {
+        return this.prisma.game.findMany();
     }
 
-    findOne(id: number): Game {
-        const game = this.games.find((game) => game.id === id);
+    async findOne(id: number): Promise<Game> {
+        const game = await this.prisma.game.findUnique({ where: { id } });
         if (!game) throw new NotFoundException('Game not found');
         return game;
     }
 
-    update(id: number, updateData: Partial<Omit<Game, 'id'>>): Game {
-        const game = this.findOne(id);
-        Object.assign(game, updateData);
-        return game;
+    async update(id: number, updateData: Prisma.GameUpdateInput): Promise<Game> {
+        await this.findOne(id);
+        return this.prisma.game.update({
+            where: { id },
+            data: updateData,
+        });
     }
 
-    remove(id: number): void {
-        const index = this.games.findIndex((game) => game.id === id);
-        if (index === -1) throw new NotFoundException('Game not found');
-        this.games.splice(index, 1);
+    async remove(id: number): Promise<void> {
+        await this.findOne(id);
+        await this.prisma.game.delete({
+            where: { id },
+        });
     }
 }
