@@ -59,7 +59,12 @@ JWT_SECRET=some-secret-here
 npx prisma migrate dev --name init
 ```
 
-#### 6. Inicie servidor NestJS
+#### 6.	Rode o seed com os dados iniciais
+```
+yarn seed
+```
+
+#### 7. Inicie servidor NestJS
 ```
 yarn start
 # ou, para ambiente de desenvolvimento:
