@@ -8,9 +8,19 @@ import { UsersModule } from './users/users.module';
 import { ErrorsModule } from './errors/errors.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
+import {ConfigModule} from "@nestjs/config";
 
 @Module({
-  imports: [SharedModule, CoreModule, GamesModule, UsersModule, ErrorsModule, PrismaModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    SharedModule,
+    CoreModule,
+    GamesModule,
+    UsersModule,
+    ErrorsModule,
+    PrismaModule,
+    AuthModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
