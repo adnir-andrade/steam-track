@@ -47,6 +47,7 @@ yarn install
 Crie um arquivo .env na raiz e adicione:
 ```
 DATABASE_URL="mysql://root:root@localhost:3306/steam-backlog-db"
+JWT_SECRET=some-secret-here
 ```
 
 #### 5.	Execute a migration do Prisma
@@ -79,7 +80,11 @@ Após rodar o comando, acesse http://localhost:5555 no navegador para abrir o St
 ___
 
 **Variáveis de Ambiente:**
-_To be added_
+
+| Nome da Variável | Descrição | Exemplo |
+|------------------|-----------|---------|
+| `DATABASE_URL`   | URL de conexão com o banco de dados MySQL | `mysql://root:root@localhost:3306/steam-backlog-db` |
+| `JWT_SECRET`     | Segredo usado para assinatura dos tokens JWT | `some-secret-here` |
 
 ---
 
@@ -91,7 +96,13 @@ _To be added_
 
 ## Documentação Swagger:
 
-_To be added_
+A documentação interativa da API está disponível em:
+
+```
+http://localhost:3000/api
+```
+
+Essa interface permite testar os endpoints da API diretamente pelo navegador, visualizar os parâmetros esperados, os retornos possíveis, além de simular autenticação com JWT usando o botão “Authorize”.
 
 ---
 
