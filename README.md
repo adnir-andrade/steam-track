@@ -149,8 +149,8 @@ As observações abaixo explicam por que os itens ID12 e ID13 não foram impleme
 #### RA4 - Gerar a documentação da API e realizar o deploy em um ambiente de produção.
 
 - [x] **ID14:** Integrou Swagger à API, gerando documentação interativa com exemplos.
-- [ ] **ID15:** Realizou o deploy da API em uma plataforma de nuvem (Render, Heroku, Vercel, etc.).
-- [ ] **ID16:** Garantiu o funcionamento da API em produção, incluindo documentação e banco de dados.
+- [x] **ID15:** Realizou o deploy da API em uma plataforma de nuvem (Render, Heroku, Vercel, etc.).
+- [x] **ID16:** Garantiu o funcionamento da API em produção, incluindo documentação e banco de dados.
 - [x] **ID17:** Configurou variáveis de ambiente com ConfigModule do NestJS.
 - [x] **ID18:** Implementou versionamento de APIs REST no NestJS.
 
