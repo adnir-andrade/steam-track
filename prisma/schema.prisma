@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id             Int        @id @default(autoincrement())
+  name           String
+  email          String     @unique
+  password       String
+  username       String     @unique
+  steam_username String
+  role           Role       @default(USER)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now())
+  userGames      UserGame[]
+}
+
+model Game {
+  id                  Int        @id @default(autoincrement())
+  name                String
+  genre               String?
+  main_story_hours    Int?
+  completionist_hours Int?
+  total_achievements  Int?
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @default(now())
+  userGames           UserGame[]
+}
+
+model GameStatus {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  userGames UserGame[]
+}
+
+model UserGame {
+  id                    Int      @id @default(autoincrement())
+  userId                Int
+  gameId                Int
+  statusId              Int
+  achievements_unlocked Int      @default(0)
+  is_favorite           Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @default(now())
+
+  user   User       @relation(fields: [userId], references: [id])
+  game   Game       @relation(fields: [gameId], references: [id])
+  status GameStatus @relation(fields: [statusId], references: [id])
+
+  @@unique([userId, gameId])
+}
