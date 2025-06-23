@@ -15,7 +15,7 @@ SteamBacklogTracker is an application designed to help users manage their Steam 
 ## Link para a API em Produção
 
 ```
-To be added
+http://157.245.137.121:3000
 ```
 
 > **Nota:** A API estará disponível em ambiente de produção até o dia **20/07/2025**. Após essa data, o serviço será desativado, pois trata-se de um projeto acadêmico e não há previsão de manutenção contínua no momento.
